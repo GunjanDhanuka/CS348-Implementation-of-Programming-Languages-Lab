@@ -2,8 +2,9 @@
     #include "header.h"
 %}
 
-%x MULTI_LINE_FLAG
-%x SINGLE_LINE_FLAG
+/* Explicit state definitions for multi-line and single-line comments */
+%x MULTI_LINE_COMM
+%x SINGLE_LINE_COMM
 
 KEYWORD                 "char"|"else"|"for"|"if"|"int"|"return"|"void"
 IDENTIFIER              [a-zA-Z_][a-zA-Z0-9_]*
@@ -26,6 +27,7 @@ STRING_LITERAL          \"({S_CHAR_SEQ})?\"
 PUNCTUATOR              "["|"]"|"{"|"}"|"("|")"|"->"|"&"|"*"|"+"|"-"|"/"|"%"|"!"|"?"|"<"|">"|"<="|">="|"=="|"!="|"&&"|"||"|"="|":"|";"|","
 WHITESPACE              [ \t\n]
 
+/* Rules section */
 %%
 
 {KEYWORD}               {return KEYWORD;}
@@ -35,14 +37,14 @@ WHITESPACE              [ \t\n]
 {STRING_LITERAL}        {return STRING_LITERAL;}
 {PUNCTUATOR}            {return PUNCTUATOR;}
 
-"/*"                    {BEGIN(MULTI_LINE_FLAG);}
-<MULTI_LINE_FLAG>"*/"   {BEGIN(INITIAL); return MULTI_LINE_COMMENT;}
-<MULTI_LINE_FLAG>.      { }
-<MULTI_LINE_FLAG>"\n"   {yylineno++;}
+"/*"                    {BEGIN(MULTI_LINE_COMM);}
+<MULTI_LINE_COMM>"*/"   {BEGIN(INITIAL); return MULTI_LINE_COMMENT;}
+<MULTI_LINE_COMM>.      { }
+<MULTI_LINE_COMM>"\n"   {yylineno++;}
 
-"//"                    {BEGIN(SINGLE_LINE_FLAG);}
-<SINGLE_LINE_FLAG>"\n"  {BEGIN(INITIAL); yylineno++; return SINGLE_LINE_COMMENT;}
-<SINGLE_LINE_FLAG>.     { }
+"//"                    {BEGIN(SINGLE_LINE_COMM);}
+<SINGLE_LINE_COMM>"\n"  {BEGIN(INITIAL); yylineno++; return SINGLE_LINE_COMMENT;}
+<SINGLE_LINE_COMM>.     { }
 
 \n                      {yylineno++;}
 {WHITESPACE}            { }
