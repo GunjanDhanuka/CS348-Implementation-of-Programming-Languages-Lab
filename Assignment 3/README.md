@@ -14,11 +14,11 @@ CC = gcc
 LEX = lex
 RM = rm -f
 
-TARGET_LEX = A3_group.l
+TARGET_LEX = A3_46.l
 LEX_C = lex.yy.c
-MAIN = A3_group.c
+MAIN = A3_46.c
 
 EXEC = a.out
-TEST = A3_group.nc
+TEST = A3_46.nc
 OUTPUT = output.txt
 ```
