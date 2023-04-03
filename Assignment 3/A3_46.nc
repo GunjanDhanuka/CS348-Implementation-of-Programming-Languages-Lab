@@ -10,7 +10,7 @@ void print(int x){
 
 int main()
 {
-    int x = 2;
+    int x = 0;
     int y = 3;
     int z_123;
     char ch = 'h';
