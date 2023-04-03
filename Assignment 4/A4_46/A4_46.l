@@ -1,5 +1,3 @@
-/* Mapping of token and token manifest constant */
-
 %{
         #include <stdio.h>
     #include <stdlib.h>
